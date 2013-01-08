@@ -5,6 +5,51 @@ var renderer = new THREE.WebGLRenderer();
 renderer.setSize(window.innerWidth, window.innerHeight); 
 document.body.appendChild(renderer.domElement);
 
+//controls
+if ( ! Detector.webgl ) Detector.addGetWebGLMessage();
+
+var SCREEN_WIDTH = window.innerWidth;
+var SCREEN_HEIGHT = window.innerHeight;
+
+var controls = {
+
+    moveForward: false,
+    moveBackward: false,
+    moveLeft: false,
+    moveRight: false
+
+};
+
+
+addControls();
+//animate();
+function addControls() {
+    controls = new THREE.TrackballControls(camera, renderer.domElement);
+    var radius = 14; // scalar value used to determine relative zoom distances
+    controls.rotateSpeed = 1;
+    controls.zoomSpeed = .5;
+    controls.panSpeed = 1;
+
+    controls.noZoom = false;
+    controls.noPan = false;
+
+    controls.staticMoving = false;
+    controls.dynamicDampingFactor = 0.3;
+
+    controls.minDistance = radius * 1.1;
+    controls.maxDistance = radius * 25;
+
+    controls.keys = [65, 83, 68]; // [ rotateKey, zoomKey, panKey ]
+}
+function animate() {
+
+    // note: three.js includes requestAnimationFrame shim
+    requestAnimationFrame(animate);
+    //controls.update();
+    renderer.render(scene, camera);
+
+}
+
 
 var planets = [];
 
@@ -106,7 +151,7 @@ function render() {
                 
     Sun.rotation.x += 0.01; 
     Sun.rotation.y += 0.01;
-    
+    controls.update();
     for( var i = 0; i < planets.length; i++ ) {
         planets[i].rotation.x += 0.01; 
         planets[i].rotation.y += 0.01;
@@ -190,45 +235,44 @@ ball._x =ballx= (rad*Math.cos(t)) + xoff;
 ball._y =bally= (rad*k*Math.sin(t)) + yoff;
 t+= inc; 
 }*/
+//stats
+container = document.createElement( 'div' );
+document.body.appendChild( container );
+var info = document.createElement( 'div' );
+var planetName = document.createElement( 'div' );
 
-if ( ! Detector.webgl ) Detector.addGetWebGLMessage();
+planetName.style.padding = '10px';
+info.style.position = 'absolute';
+info.style.top = '10px';
+info.style.width = '100%';
+info.style.color = '#ffffff';
+info.style.textAlign = 'left';
+info.innerHTML = 'solar system with three.js';
+container.appendChild( info );
+info.appendChild( planetName );
 
-var SCREEN_WIDTH = window.innerWidth;
-var SCREEN_HEIGHT = window.innerHeight;
 
-var controls = {
+var stats = new Stats();
+info.appendChild( stats.domElement );
 
-    moveForward: false,
-    moveBackward: false,
-    moveLeft: false,
-    moveRight: false
+setInterval( function () {
 
-};
-addControls();
-animate();
-function addControls() {
-    controls = new THREE.TrackballControls(camera, renderer.domElement);
-    var radius = 14; // scalar value used to determine relative zoom distances
-    controls.rotateSpeed = 1;
-    controls.zoomSpeed = .5;
-    controls.panSpeed = 1;
+    stats.update();
 
-    controls.noZoom = false;
-    controls.noPan = false;
+}, 1000 / 60 );
 
-    controls.staticMoving = false;
-    controls.dynamicDampingFactor = 0.3;
 
-    controls.minDistance = radius * 1.1;
-    controls.maxDistance = radius * 25;
+projector = new THREE.Projector();
+document.addEventListener( 'mousedown', onDocumentMouseDown, false );
 
-    controls.keys = [65, 83, 68]; // [ rotateKey, zoomKey, panKey ]
+function onDocumentMouseDown( event ) {
+
+    event.preventDefault();
+
+    
 }
-function animate() {
 
-    // note: three.js includes requestAnimationFrame shim
-    requestAnimationFrame(animate);
-    controls.update();
-    renderer.render(scene, camera);
 
-}
+
+
+
