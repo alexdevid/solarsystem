@@ -1,6 +1,6 @@
 
 var scene = new THREE.Scene(); 
-var camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 2, 3000 );
+var camera = new THREE.PerspectiveCamera( 35, window.innerWidth / window.innerHeight, 2, 10000 );
 var renderer = new THREE.WebGLRenderer();
 renderer.setSize(window.innerWidth, window.innerHeight); 
 document.body.appendChild(renderer.domElement);
@@ -59,8 +59,8 @@ planets.push(Jupiter);
 
 var Saturn = new radialObject(0, 18, 'i/Saturn.jpg', 0.85, 30);
 Saturn.radius = 22;
-Saturn.speed = Math.PI/1400;
-Saturn.k = 0.6;
+Saturn.speed = Math.PI/1600;
+Saturn.k = 0.7;
 Saturn.t = 0;
 Saturn.name = "Saturn";
 scene.add(Saturn); 
@@ -68,8 +68,8 @@ planets.push(Saturn);
 
 var Uranus = new radialObject(0, 18, 'i/Uranus.jpg', 0.6, 30);
 Uranus.radius = 24;
-Uranus.speed = Math.PI/1600;
-Uranus.k = 0.6;
+Uranus.speed = Math.PI/1900;
+Uranus.k = 0.8;
 Uranus.t = 0;
 Uranus.name = "Uranus";
 scene.add(Uranus); 
@@ -77,13 +77,23 @@ planets.push(Uranus);
 
 var Neptune = new radialObject(0, 18, 'i/Neptune.jpg', 0.5, 30);
 Neptune.radius = 26;
-Neptune.speed = Math.PI/1800;
-Neptune.k = 0.6;
+Neptune.speed = Math.PI/2200;
+Neptune.k = 0.9;
 Neptune.t = 0;
 Neptune.name = "Neptune";
 scene.add(Neptune); 
 planets.push(Neptune);
 
+/*
+var geometry = new THREE.SphereGeometry( 3, 30, 30 );
+var material = new THREE.MeshBasicMaterial({
+    color: 0x00ff00
+});
+var obj = new THREE.Mesh(geometry, material);
+obj.position.x =14;
+obj.position.y = 4;
+scene.add(obj); 
+*/
 
 
 
@@ -103,12 +113,14 @@ function render() {
         planets[i].position.x = (planets[i].radius*Math.cos(planets[i].t));
         planets[i].position.y = (planets[i].radius*Math.sin(planets[i].t));
         planets[i].t += planets[i].speed;
+        
             
         
     }
     renderer.render(scene, camera); 
 } 
 render();
+
 
 
 
@@ -131,16 +143,29 @@ Object.prototype.setProperty = function(property, add) {
 
 //mouse 
 //document.addEventListener( 'mousedown', onDocumentMouseDown, false );
+/*
 document.addEventListener( 'keydown', onDocumentKeyDown, false );
 document.addEventListener( 'mousewheel', onDocumentMouseWheel, false );
 document.addEventListener( 'mouse', onDocumentMouseWheel, false );
 
 function onDocumentKeyDown( event ) { 
     switch( event.keyCode ) {
-        case 37: camera.position.x -= 0.3; event.preventDefault(); break;
-        case 38: camera.position.y += 0.3; event.preventDefault(); break;
-        case 39: camera.position.x += 0.3; event.preventDefault(); break;
-        case 40: camera.position.y -= 0.3; event.preventDefault(); break;
+        case 37:
+            camera.position.x -= 0.3;
+            event.preventDefault();
+            break;
+        case 38:
+            camera.position.y += 0.3;
+            event.preventDefault();
+            break;
+        case 39:
+            camera.position.x += 0.3;
+            event.preventDefault();
+            break;
+        case 40:
+            camera.position.y -= 0.3;
+            event.preventDefault();
+            break;
     }
 } 
 
@@ -150,7 +175,7 @@ function onDocumentMouseWheel( event ) {
     camRadius -= offset;
     camera.position.z = camRadius;
 }
-
+*/
 /*формулa движения по эллипсоидной окружности
 var rad = 200; //больший радиус
 var xoff = 300; 
@@ -165,3 +190,45 @@ ball._x =ballx= (rad*Math.cos(t)) + xoff;
 ball._y =bally= (rad*k*Math.sin(t)) + yoff;
 t+= inc; 
 }*/
+
+if ( ! Detector.webgl ) Detector.addGetWebGLMessage();
+
+var SCREEN_WIDTH = window.innerWidth;
+var SCREEN_HEIGHT = window.innerHeight;
+
+var controls = {
+
+    moveForward: false,
+    moveBackward: false,
+    moveLeft: false,
+    moveRight: false
+
+};
+addControls();
+animate();
+function addControls() {
+    controls = new THREE.TrackballControls(camera, renderer.domElement);
+    var radius = 14; // scalar value used to determine relative zoom distances
+    controls.rotateSpeed = 1;
+    controls.zoomSpeed = .5;
+    controls.panSpeed = 1;
+
+    controls.noZoom = false;
+    controls.noPan = false;
+
+    controls.staticMoving = false;
+    controls.dynamicDampingFactor = 0.3;
+
+    controls.minDistance = radius * 1.1;
+    controls.maxDistance = radius * 25;
+
+    controls.keys = [65, 83, 68]; // [ rotateKey, zoomKey, panKey ]
+}
+function animate() {
+
+    // note: three.js includes requestAnimationFrame shim
+    requestAnimationFrame(animate);
+    controls.update();
+    renderer.render(scene, camera);
+
+}

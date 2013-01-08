@@ -13,6 +13,7 @@ function radialObject(x, y, texture, size, tiles) {
     });
     
     var obj = new THREE.Mesh(geometry, material);
+   
     obj.position.x = x;
     obj.position.y = y;
     return obj;

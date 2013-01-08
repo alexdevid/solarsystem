@@ -22,7 +22,7 @@ function bigBang() {
     this.m = this.E/Fundamentals.C*Fundamentals.C;
     this.v;                  //TODO объем вселенной
     
-    this._subAtomsR = 1;     //радиус при котором образуются субатомные частицы)
+    this._subAtomsR = 1;     //радиус при котором образуются субатомные частицы
     this._subAtomsInit;
 	
 };
@@ -35,12 +35,13 @@ bigBang.prototype = {
     },
     _subAtomsInit: function() {
         for ( var i = 0; i <= this.v; i++ ) {
+            //TODO
             random = Math.random() * max;
-            subAtom = new radialObject(Math.random(), 10, 'i/Earth.jpg', 0.3, 30);
-            Earth.radius = 10;
-            Earth.speed = Math.PI/1000;
-            Earth.k = 0.4;
-            scene.add(Earth); 
+            subAtom = new radialObject(Math.random(), 10, 'i/starsbg.png', 0.001, 1);
+            subAtom.radius = 1;
+            subAtom.speed = Math.PI/10;
+            subAtom.k = 0.4;
+            scene.add(subAtom); 
         }
     }
 };
