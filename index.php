@@ -11,6 +11,7 @@
         <script src = "js/three.js"></script>
         <script src = "js/TrackballControls.js"></script>
         <script src = "js/Detector.js"></script>
+        <script src = "js/stats.min.js"></script>
         <script src = "js/point.js"></script> 
         <script src = "js/radialObject.js"></script> 
         <script src = "js/orbit.js"></script> 
