@@ -15,8 +15,8 @@ function bigBang() {
     this.radius = 0;         //радиус вселенной, до взрыва равен нулю
     this.gravity = 1;        //гравитация
     this.k = 0.01;           //коэффициент расширения вселенной. //TODO должен расти в прогрессии
-    this.T = this.m*this.v;
-    ;      //TODO - температура вселенной
+    //this.T = this.m*this.v;
+    //TODO - температура вселенной
     this.E;                  //кол-во чистой энергии образовавшейся при взрыве
     //масса вселенной
     this.m = this.E/Fundamentals.C*Fundamentals.C;

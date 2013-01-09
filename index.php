@@ -3,7 +3,7 @@
     <head> 
         <title>My first Three.js app</title> 
         <style>
-            html { background: url(i/starsbg.png); }
+            html { background: #000; }
             html, body, div { margin: 0; padding: 0;}
             canvas { width: 100%; height: 100% }
         </style> 

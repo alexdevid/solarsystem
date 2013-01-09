@@ -50,6 +50,84 @@ function animate() {
 
 }
 
+var particleCount = 15000,
+particles = new THREE.Geometry();
+var pMaterial = new THREE.ParticleBasicMaterial({
+    color: 0xFFFFFF,
+    size: 3,
+    map: THREE.ImageUtils.loadTexture(
+        "i/Flare.png"
+        ),
+    blending: THREE.AdditiveBlending,
+    transparent: true
+});
+
+// now create the individual particles
+for(var p = 0; p < particleCount; p++) {
+
+    // create a particle with random
+    // position values, -250 -> 250
+    var pX = Math.random() * 500 - 250,
+    pY = Math.random() * 500 - 250,
+    pZ = Math.random() * 500 - 250,
+    particle = new THREE.Vector3(pX, pY, pZ);
+
+    // add it to the geometry
+    particles.vertices.push(particle);
+}
+
+// create the particle system
+var particleSystem =
+new THREE.ParticleSystem(
+    particles,
+    pMaterial);
+
+// add it to the scene
+// create the particle variables
+/*
+
+*/
+
+// also update the particle system to
+// sort the particles which enables
+// the behaviour we want
+particleSystem.sortParticles = true;
+scene.add(particleSystem);
+
+function particleRender( context ) {
+				
+    // we get passed a reference to the canvas context
+    context.beginPath();
+    // and we just have to draw our shape at 0,0 - in this
+    // case an arc from 0 to 2Pi radians or 360º - a full circle!
+    context.arc( 0, 0, 1, 0,  Math.PI * 2, true );
+    context.fill();
+};
+
+function generateSprite() {
+
+    var canvas = document.createElement( 'canvas' );
+    canvas.width = 45;
+    canvas.height = 45;
+
+    var context = canvas.getContext( '2d' );
+    var gradient = context.createRadialGradient( canvas.width / 2, canvas.height / 2, 0, canvas.width / 2, canvas.height / 2, canvas.width / 2 );
+    gradient.addColorStop( 0, 'rgba(255,255,255,1)' );
+    gradient.addColorStop( 0.2, 'rgba(0,255,255,1)' );
+    gradient.addColorStop( 0.4, 'rgba(0,0,64,1)' );
+    gradient.addColorStop( 1, 'rgba(0,0,0,1)' );
+
+    context.fillStyle = gradient;
+    context.fillRect( 0, 0, canvas.width, canvas.height );
+
+    return canvas;
+
+}
+
+
+var light = new THREE.PointLight( 0xFFFF00 );
+light.position.set( 0, 0, 0 );
+scene.add( light );
 
 var planets = [];
 
@@ -74,7 +152,6 @@ Venus.t = 0;
 Venus.name = "Venus";
 scene.add(Venus); 
 planets.push(Venus);
-
 var Earth = new radialObject(0, 10, 'i/Earth.jpg', 0.3, 30);
 Earth.radius = 10;
 Earth.speed = Math.PI/700;
@@ -148,7 +225,7 @@ camera.position.z = camRadius;
             
 function render() { 
     requestAnimationFrame(render); 
-                
+    particleSystem.rotation.y += 0.001;            
     Sun.rotation.x += 0.01; 
     Sun.rotation.y += 0.01;
     controls.update();
