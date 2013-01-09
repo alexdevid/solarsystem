@@ -344,17 +344,20 @@ THREE.TrackballControls = function ( object, domElement ) {
 
         //show planet name ftw!
         var vector = new THREE.Vector3( ( event.clientX / window.innerWidth ) * 2 - 1, - ( event.clientY / window.innerHeight ) * 2 + 1, 0.5 );
-        projector.unprojectVector( vector, camera );
+        _projector.unprojectVector( vector, _camera );
 
-        var raycaster = new THREE.Raycaster( camera.position, vector.subSelf( camera.position ).normalize() );
-
-        var intersects = raycaster.intersectObjects( planets );
-
-        if ( intersects.length > 0 ) {
+        var raycaster = new THREE.Raycaster( _camera.position, vector.subSelf( _camera.position ).normalize() );
         
-            planetName.innerHTML = intersects[ 0 ].object.name;
+        if ( typeof(planets) != "undefined" ) {
+            var intersects = raycaster.intersectObjects( planets );
 
+            if ( intersects.length > 0 ) {
+        
+                planetName.innerHTML = intersects[ 0 ].object.name;
+
+            }
         }
+        
         document.addEventListener( 'mousemove', mousemove, false );
         document.addEventListener( 'mouseup', mouseup, false );
 
