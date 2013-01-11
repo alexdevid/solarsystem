@@ -28,4 +28,4 @@ var ptcl = new Particles(1100, 10, new THREE.Vector3(1100, 1100, 1100));
 
 mercury.drawOrbit();
 earth.drawOrbit();
-moob.drawOrbit();
+moon.drawOrbit();

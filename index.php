@@ -12,6 +12,7 @@
     </head> 
     <body> 
         <!--    Classes     -->
+        <script src = "js/libs/lib.planets.js"></script> 
         <script src = "js/Classes/BaseClass.js"></script> 
         <script src = "js/Classes/Planet.js"></script> 
         <script src = "js/Classes/Particles.js"></script> 
