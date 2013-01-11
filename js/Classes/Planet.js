@@ -141,43 +141,20 @@ function celestialAddPlanets() {
 }
 
 for ( var i = 0, l = Celestial.planetsCount(); i < l; i ++ ) {
-    
+    var mesh = create_planet(i);
     
     
 }
 function create_planet(planetid) {
 
     var pcolor = Celestial.planetInfo(planetid,'color');
-    var material = [
-        [ new THREE.MeshBasicMaterial( {
-                map: ImageUtils.loadTexture( Celestial.planetInfo(planetid,'texture','high'))
-            } ) ],
-        [ new THREE.MeshBasicMaterial( {
-                map: ImageUtils.loadTexture( Celestial.planetInfo(planetid,'texture','med'))
-            } ) ],
-        [ new THREE.MeshBasicMaterial( {
-                map: ImageUtils.loadTexture( Celestial.planetInfo(planetid,'texture','low'))
-            } ) ],
-        [ new THREE.MeshBasicMaterial( {
-                map: ImageUtils.loadTexture( Celestial.planetInfo(planetid,'texture','low'))
-            } ) ],
-        [ new THREE.MeshLambertMaterial( {
-                color: pcolor
-            } ) ],
-        [ new THREE.MeshLambertMaterial( {
-                color: pcolor
-            } ) ],
-        [ new THREE.MeshLambertMaterial( {
-                color: pcolor
-            } ) ],
-        [ new THREE.MeshLambertMaterial( {
-                color: pcolor
-            } ) ],
-    ];
-    //							new THREE.MeshLambertMaterial( { color: 0xffffff } ),
-    //							new THREE.MeshBasicMaterial( { color: 0xff0000, opacity: 0.5, wireframe: true } )
+    var material = new THREE.MeshBasicMaterial( {
+                map: ImageUtils.loadTexture( 'i/Mercury.jpg' )
+            } );
+    //new THREE.MeshLambertMaterial( { color: 0xffffff } ),
+    //new THREE.MeshBasicMaterial( { color: 0xff0000, opacity: 0.5, wireframe: true } )
 
-    var planet_width = Celestial.planetInfo(planetid,'pixelwidth');
+    var planet_width = 2;   //TODO real sizes
     var geometry = [
         [ new Sphere( planet_width, 12, 8 ), parseInt(3*planet_width) ],
         [ new Sphere( planet_width, 10, 5 ), parseInt(7*planet_width) ],
