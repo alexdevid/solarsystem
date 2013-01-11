@@ -2,43 +2,29 @@
 <html> 
     <head> 
         <title>My first Three.js app</title> 
-        <style>
-            html { 
-                background: #000;
-            }
-            .overlay {
-                width: 100%;
-                height: 100%;
-                position: fixed;
-                top: 0;
-                left: 0;
-                background: url(i/sky/Nebula_Effects_Fractal_Stock_by_ineedfire.jpg) no-repeat;
-                background-size: 100% 100%;
-                opacity: .3;
-                z-index: 1;
-            }
-            html, body, div { margin: 0; padding: 0;}
-            canvas { margin: 0 auto; padding: 0; z-index: 10; position: relative;}
-        </style> 
+        <link rel="stylesheet" href="css/main.css">
+        <!--    System      -->
+        <script src = "js/System/Three.js"></script>
+        <script src = "js/System/TrackballControls.js"></script>
+        <script src = "js/System/Detector.js"></script>
+        <script src = "js/System/stats.min.js"></script>
+        <!--    /System      -->
     </head> 
     <body> 
-        <div class="overlay"></div>
-        <script src = "js/three.js"></script>
-        <script src = "js/TrackballControls.js"></script>
-        <script src = "js/Detector.js"></script>
-        <script src = "js/stats.min.js"></script>
-        <script src = "js/point.js"></script> 
-        <script src = "js/radialObject.js"></script> 
-        <script src = "js/orbit.js"></script> 
-        <script src = "js/Particles.js"></script> 
-        <script src = "js/Particles.js"></script> 
-        <script src = "js/init.js"></script> 
+        <!--    Classes     -->
+        <script src = "js/Classes/BaseClass.js"></script> 
+        <script src = "js/Classes/Planet.js"></script> 
+        <script src = "js/Classes/Particles.js"></script> 
+        <!--    /Classes      -->
+        
+        <script src = "js/Controller.js"></script>
+        
         <script>
             container = document.createElement( 'div' );
             document.body.appendChild( container );
             var info = document.createElement( 'div' );
             var planetName = document.createElement( 'div' );
-
+            container.style.zIndex = 100;
             planetName.style.padding = '10px';
             info.style.position = 'absolute';
             info.style.top = '10px';
@@ -53,11 +39,6 @@
             var stats = new Stats();
             info.appendChild( stats.domElement );
 
-            setInterval( function () {
-
-                stats.update();
-
-            }, 1000 / 60 );
             
             var _controls = {
 
@@ -83,17 +64,29 @@
                 _controls.dynamicDampingFactor = 0.3;
 
                 _controls.minDistance = radius * 1.1;
-                _controls.maxDistance = radius * 25;
+                _controls.maxDistance = radius * 5500;
 
                 _controls.keys = [65, 83, 68]; // [ rotateKey, zoomKey, panKey ]
             }
             
+            var glow = false;
             render();
             function render() { 
                 requestAnimationFrame(render); 
                 _controls.update();
-                _renderer.render(_scene, _camera); 
+                stats.update();
+                
+                for ( var i = 0; i < _planets.length; i++ ){
+                    _planets[i].animate();
+                }
+                if ( _camera.position.z > 1501 && glow == false ) {
+                    console.log(_camera.position.z);
+                    glow = true;
+                }
+                ptcl.sortParticles = true;
+                _renderer.render(_scene, _camera);
             } 
         </script>
+        <div class="overlay"></div>
     </body> 
 </html>
